@@ -64,13 +64,12 @@ pip install -r requirements.txt.txt
 ### Создание заказа
 1. **Заказ с цветом BLACK** - параметризованный тест
 2. **Заказ с цветом GREY** - параметризованный тест  
-3. **Заказ с обоими цветами** - проверка множественного выбора
-4. **Заказ без указания цвета** - проверка опционального поля
+3. **Заказ с обоими цветами** - параметризованный тест
+4. **Заказ без указания цвета** - параметризованный тест
 5. **Наличие track в ответе** - проверка для всех вариантов цветов
 
 ### Список заказов
 1. **Получение списка заказов** - проверка, что возвращается валидный список
-
 
 
 ### Запуск тестов 
@@ -89,13 +88,11 @@ pytest tests/test_courier_creation.py --alluredir=allure-results
 pytest tests/test_courier_login.py --alluredir=allure-results
 
 # Только тесты создания заказов
-pytest tests/test_order_creation.py tests/test_order_creation.py --alluredir=allure-results
+pytest tests/test_order_creation.py --alluredir=allure-results
 
 # Тесты получения списка заказов
-pytest tests/test_order_creation.py tests/test_order_list.py --alluredir=allure-results
+pytest tests/test_order_list.py --alluredir=allure-results
 ```
-
-
 
 ###  Просмотр Allure-отчёта
 

@@ -37,6 +37,10 @@ class TestCourierCreation:
         login, password, first_name, courier_id = registered_courier
         response = courier_api.create_courier(login, password, first_name)
         assert response.status_code == 409
+        assert response.json() == {
+            "code": 409,
+            "message": "Этот логин уже используется. Попробуйте другой."
+        }
 
 
     @allure.story("Создание пользователя с существующим логином возвращает ошибку")
@@ -45,7 +49,10 @@ class TestCourierCreation:
         login, _, _, courier_id = registered_courier
         response = courier_api.create_courier(login, "different_password", "different_name")
         assert response.status_code == 409
-
+        assert response.json() == {
+            "code": 409,
+            "message": "Этот логин уже используется. Попробуйте другой."
+        }
 
     @allure.story("Чтобы создать курьера, нужно передать все обязательные поля")
     @allure.story("Если одного из полей нет, запрос возвращает ошибку")
@@ -53,7 +60,10 @@ class TestCourierCreation:
     def test_create_courier_without_login_fails(self, courier_api, courier_data):
         response = courier_api.create_courier("", courier_data['password'], courier_data['firstName'])
         assert response.status_code == 400
-
+        assert response.json() == {
+            "code": 400,
+            "message": "Недостаточно данных для создания учетной записи"
+        }
 
     @allure.story("Чтобы создать курьера, нужно передать все обязательные поля")
     @allure.story("Если одного из полей нет, запрос возвращает ошибку")
@@ -61,3 +71,7 @@ class TestCourierCreation:
     def test_create_courier_without_password_fails(self, courier_api, courier_data):
         response = courier_api.create_courier(courier_data['login'], "", courier_data['firstName'])
         assert response.status_code == 400
+        assert response.json() == {
+            "code": 400,
+            "message": "Недостаточно данных для создания учетной записи"
+        }
