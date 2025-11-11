@@ -4,29 +4,31 @@ import allure
 @allure.feature("Создание курьера")
 class TestCourierCreation:
 
-
     @allure.story("Курьера можно создать")
     @allure.story("Запрос возвращает правильный код ответа")
-    @allure.title("Успешное создание курьера - проверка кода 201")
-    def test_create_courier_returns_correct_status_code(self, courier_api, courier_data):
-        response = courier_api.create_courier(
-            courier_data['login'],
-            courier_data['password'],
-            courier_data['firstName']
-        )
-        assert response.status_code == 201
-
-
-    @allure.story("Курьера можно создать")
     @allure.story("Успешный запрос возвращает 'ok':true")
-    @allure.title("Успешное создание курьера - проверка тела ответа")
+    @allure.title("Успешное создание курьера - проверка кода и тела ответа")
     def test_create_courier_returns_correct_body(self, courier_api, courier_data):
-        response = courier_api.create_courier(
-            courier_data['login'],
-            courier_data['password'],
-            courier_data['firstName']
-        )
-        assert response.json() == {"ok": True}
+        with allure.step("Создать курьера"):
+            response = courier_api.create_courier(
+                courier_data['login'],
+                courier_data['password'],
+                courier_data['firstName']
+            )
+
+        try:
+            with allure.step("Проверить код ответа 201"):
+                assert response.status_code == 201
+            with allure.step("Проверить тело ответа"):
+                assert response.json() == {"ok": True}
+        finally:
+            with allure.step("Очистить тестовые данные"):
+                login_response = courier_api.login_courier(
+                    courier_data['login'],
+                    courier_data['password']
+                )
+                courier_id = login_response.json().get('id')
+                courier_api.delete_courier(courier_id)
 
 
     @allure.story("Нельзя создать двух одинаковых курьеров")

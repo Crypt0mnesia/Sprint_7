@@ -1,5 +1,4 @@
 import allure
-from src.data_generator import generate_courier_data
 
 
 @allure.epic("API Яндекс Самокат")
@@ -60,8 +59,7 @@ class TestCourierLogin:
 
    @allure.story("Если авторизоваться под несуществующим пользователем, запрос возвращает ошибку")
    @allure.title("Логин несуществующего курьера")
-   def test_login_nonexistent_courier_fails(self, courier_api):
-       courier_data = generate_courier_data()
+   def test_login_nonexistent_courier_fails(self, courier_api, courier_data):
        response = courier_api.login_courier(courier_data['login'], courier_data['password'])
        assert response.status_code == 404
 
