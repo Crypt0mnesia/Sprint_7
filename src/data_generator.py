@@ -1,7 +1,7 @@
 import requests
 import random
 import string
-from src.endpoints import BASE_URL, COURIER_CREATE
+from src.endpoints import COURIER_CREATE
 
 
 def _generate_random_string(length):
@@ -20,7 +20,7 @@ def register_new_courier_and_return_login_password():
         "firstName": first_name
     }
 
-    response = requests.post(BASE_URL + COURIER_CREATE, data=payload)
+    response = requests.post(COURIER_CREATE, data=payload)
 
     if response.status_code == 201:
         login_pass.append(login)
